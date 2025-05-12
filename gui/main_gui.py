@@ -13,7 +13,7 @@ from gui.location_gui import run_location_gui
 from gui.view_locations_gui import run_view_locations_gui
 from gui.debt_gui import run_debt_gui
 from gui.view_debts_gui import run_view_debts_gui
-from utils.data_manager import ensure_files_exist
+from utils.data_manager import ensure_user_data_exists
 from utils.create_default_factions import generate_default_factions
 
 def create_tile(parent, title, add_command, view_command, row, col):
@@ -46,7 +46,7 @@ def run_main_gui():
     Runs the main GUI window which contains tiles for each category (Rumor, Character, etc.)
     Each tile has an 'Add' and 'View' button for managing data.
     """
-    ensure_files_exist()  # Ensure all necessary data files exist
+    ensure_user_data_exists()  # Ensure all necessary data files exist
     generate_default_factions()  # Generate default factions if needed
 
     # Create the main window
