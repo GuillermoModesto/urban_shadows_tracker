@@ -12,7 +12,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 # Path to external writable data directory
-USER_DATA_DIR = os.path.join(os.getcwd(), "user_data")
+USER_DATA_DIR = os.path.join(os.getcwd(), "data")
 
 # Files to manage
 DATA_FILES = ["characters.json", "debts.json", "factions.json", "locations.json", "rumors.json"]
