@@ -1,0 +1,16 @@
+[
+    {
+        "id": 0,
+        "name": "",
+        "description": 0,
+        "connections": []
+    },
+    {
+        "id": 2,
+        "name": "pepe",
+        "description": "luis",
+        "connections": [
+            "caca"
+        ]
+    }
+]
