@@ -38,3 +38,8 @@ def save_data(filename, data):
     path = os.path.join("data", filename)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
+
+def ensure_files_exist():
+    filenames = ["characters.json", "debts.json", "factions.json", "locations.json", "rumors.json"]
+    for filename in filenames:
+        load_data(filename)  # This will ensure each file is created if it doesn't exist or is empty
