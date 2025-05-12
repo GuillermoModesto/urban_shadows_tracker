@@ -6,19 +6,33 @@ from utils.data_manager import load_data
 DATA_FILE = "debts.json"
 
 def run_view_debts_gui():
+    """
+    Runs the GUI for viewing debts. Displays a table with debt details including owed parties, reason, and status.
+    """
+    # Create a new window for viewing debts
     window = tk.Toplevel()
     window.title("View Debts")
 
-    tree = ttk.Treeview(window, columns=("ID", "Amount", "Owed By", "Owed To", "Due Date", "Status"), show='headings')
+    # Set up the Treeview widget to display debt data
+    tree = ttk.Treeview(window, columns=("Owed By", "Owed To", "Reason", "Status"), show='headings')
+    
+    # Configure the columns for the Treeview
     for col in tree["columns"]:
-        tree.heading(col, text=col)
-        tree.column(col, width=120)
-    tree.pack(expand=True, fill="both")
+        tree.heading(col, text=col)  # Set the heading for each column
+        tree.column(col, width=120)  # Set the width for each column
+    tree.pack(expand=True, fill="both")  # Pack the Treeview widget into the window
 
-    debts = [Debt.from_dict(d) for d in load_data(DATA_FILE, Debt(0, '', '', '', 'unpaid'))]
+    # Load the list of debts from the data file and convert to Debt objects
+    debts = [Debt.from_dict(d) for d in load_data(DATA_FILE)]  # Assuming Debt class correctly handles missing fields
+    
+    # Insert each debt into the Treeview
     for debt in debts:
         tree.insert("", "end", values=(
-            debt.id, debt.amount, debt.owed_by, debt.owed_to, debt.due_date, debt.status
+            debt.owed_by,  # Party who owes the debt
+            debt.owed_to,  # Party to whom the debt is owed
+            debt.reason,   # Reason for the debt
+            debt.status    # Current status of the debt (e.g., unpaid, paid)
         ))
 
+    # Start the Tkinter event loop
     window.mainloop()

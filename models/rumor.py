@@ -1,5 +1,5 @@
 class Rumor:
-    def __init__(self, id, content, source, date_heard, status, tags, related_characters, related_factions, location_id):
+    def __init__(self, id, content, source, date_heard, status, tags, related_characters, related_factions, related_locations):
         self.id = id
         self.content = content
         self.source = source
@@ -8,7 +8,7 @@ class Rumor:
         self.tags = tags
         self.related_characters = related_characters
         self.related_factions = related_factions
-        self.location_id = location_id
+        self.related_locations = related_locations  # Ensure this is present
 
     def to_dict(self):
         return {
@@ -20,7 +20,7 @@ class Rumor:
             "tags": self.tags,
             "related_characters": self.related_characters,
             "related_factions": self.related_factions,
-            "location_id": self.location_id
+            "related_locations": self.related_locations
         }
 
     @classmethod
@@ -34,5 +34,5 @@ class Rumor:
             data.get("tags", []),
             data.get("related_characters", []),
             data.get("related_factions", []),
-            data.get("location_id", 0)
+            data.get("related_locations", [])
         )

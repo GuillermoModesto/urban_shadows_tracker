@@ -1,17 +1,16 @@
 [
     {
         "id": 1,
-        "content": "tengo caca",
-        "source": "mi culo",
+        "content": "",
+        "source": "",
         "date_heard": "5/12/25",
         "status": "unconfirmed",
         "tags": [
-            "caca",
-            "culo"
+            ""
         ],
         "related_characters": [],
         "related_factions": [],
-        "location_id": null
+        "related_locations": []
     },
     {
         "id": 2,
@@ -20,13 +19,57 @@
         "date_heard": "5/12/25",
         "status": "unconfirmed",
         "tags": [
+            ""
+        ],
+        "related_characters": [
+            "pepe"
+        ],
+        "related_factions": [
+            "Wild"
+        ],
+        "related_locations": [
+            "asd"
+        ]
+    },
+    {
+        "id": 3,
+        "content": "",
+        "source": "",
+        "date_heard": "5/12/25",
+        "status": "confirmed",
+        "tags": [
+            ""
+        ],
+        "related_characters": [
+            "caca",
+            "pepe"
+        ],
+        "related_factions": [
+            "Night",
+            "Wild"
+        ],
+        "related_locations": [
+            "asd",
+            "dddddd"
+        ]
+    },
+    {
+        "id": 4,
+        "content": "asd",
+        "source": "asd",
+        "date_heard": "5/12/25",
+        "status": "unconfirmed",
+        "tags": [
             "asd"
         ],
         "related_characters": [
-            2,
-            0
+            "caca"
         ],
-        "related_factions": [],
-        "location_id": null
+        "related_factions": [
+            "Power"
+        ],
+        "related_locations": [
+            "asd"
+        ]
     }
 ]

@@ -3,6 +3,39 @@
         "id": 0,
         "name": "",
         "description": "",
-        "controlled_by": ""
+        "area": "",
+        "details": "",
+        "tags": []
+    },
+    {
+        "id": 2,
+        "name": "asd",
+        "description": "asd",
+        "area": "asd",
+        "details": [
+            "asd"
+        ],
+        "tags": []
+    },
+    {
+        "id": 3,
+        "name": "dddddd",
+        "description": "ddddddd",
+        "area": "dddddddd",
+        "details": [
+            "ddddddddddd",
+            "mmmmmm"
+        ],
+        "tags": []
+    },
+    {
+        "id": 4,
+        "name": "asd",
+        "description": "asd",
+        "area": "asd",
+        "details": [
+            "asd"
+        ],
+        "tags": []
     }
 ]

@@ -1,1 +1,9 @@
-[]
+[
+    {
+        "id": 1,
+        "owed_by": "asd",
+        "owed_to": "asd",
+        "reason": "asd",
+        "status": "unpaid"
+    }
+]
