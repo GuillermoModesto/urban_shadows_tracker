@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "content": "tengo caca",
+        "source": "mi culo",
+        "date_heard": "5/12/25",
+        "status": "unconfirmed",
+        "tags": [
+            "caca",
+            "culo"
+        ],
+        "related_characters": [],
+        "related_factions": [],
+        "location_id": null
+    },
+    {
+        "id": 2,
+        "content": "asd",
+        "source": "asd",
+        "date_heard": "5/12/25",
+        "status": "unconfirmed",
+        "tags": [
+            "asd"
+        ],
+        "related_characters": [
+            2,
+            0
+        ],
+        "related_factions": [],
+        "location_id": null
+    }
+]
