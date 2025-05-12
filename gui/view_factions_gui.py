@@ -7,33 +7,50 @@ DATA_FILE = "factions.json"
 
 def run_view_factions_gui():
     """
-    Runs the GUI for viewing factions. Displays a table with faction details including ID, name, influence, territory, and members.
+    GUI for viewing factions with filterable columns.
     """
-    # Create a new window for viewing factions
     window = tk.Toplevel()
     window.title("View Factions")
 
-    # Set up the Treeview widget to display faction data
-    tree = ttk.Treeview(window, columns=("Name", "Influence", "Territory", "Members"), show="headings")
-    
-    # Configure the columns for the Treeview
-    for col in tree["columns"]:
-        tree.heading(col, text=col)  # Set the heading for each column
-        tree.column(col, width=120)  # Set the width for each column
-        
-    tree.pack(expand=True, fill="both")  # Pack the Treeview widget into the window
+    columns = ("Name", "Influence", "Territory", "Members")
+    factions = [Faction.from_dict(d) for d in load_data(DATA_FILE)]
 
-    # Load the list of factions from the data file and convert to Faction objects
-    factions = [Faction.from_dict(d) for d in load_data(DATA_FILE)]  # Load data and convert to Faction objects
+    # Filter inputs frame
+    filter_frame = tk.Frame(window)
+    filter_frame.pack(fill="x", padx=5, pady=5)
 
-    # Insert each faction into the Treeview
-    for faction in factions:
-        tree.insert("", "end", values=(
-            faction.name,  # Faction name
-            faction.influence,  # Faction's influence
-            faction.territory,  # Faction's territory
-            ", ".join(faction.members)  # Faction members, assuming it's a list of names
-        ))
+    filter_vars = {col: tk.StringVar() for col in columns}
 
-    # Start the Tkinter event loop
+    for col in columns:
+        sub_frame = tk.Frame(filter_frame)
+        sub_frame.pack(side="left", expand=True, fill="x", padx=2)
+
+        label = tk.Label(sub_frame, text=col)
+        label.pack(anchor="w")
+
+        entry = tk.Entry(sub_frame, textvariable=filter_vars[col])
+        entry.pack(fill="x")
+        entry.bind("<KeyRelease>", lambda e: update_tree())
+
+    # Treeview setup
+    tree = ttk.Treeview(window, columns=columns, show='headings')
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, width=140)
+    tree.pack(expand=True, fill="both", padx=5, pady=5)
+
+    def update_tree():
+        tree.delete(*tree.get_children())
+        for faction in factions:
+            values = (
+                faction.name,
+                faction.influence,
+                faction.territory,
+                ", ".join(faction.members)
+            )
+            if all(filter_vars[col].get().lower() in str(values[i]).lower() for i, col in enumerate(columns)):
+                tree.insert("", "end", values=values)
+
+    update_tree()  # Initial load with all entries
+
     window.mainloop()

@@ -7,32 +7,51 @@ DATA_FILE = "debts.json"
 
 def run_view_debts_gui():
     """
-    Runs the GUI for viewing debts. Displays a table with debt details including owed parties, reason, and status.
+    GUI for viewing debts with filterable columns.
     """
-    # Create a new window for viewing debts
     window = tk.Toplevel()
     window.title("View Debts")
 
-    # Set up the Treeview widget to display debt data
-    tree = ttk.Treeview(window, columns=("Owed By", "Owed To", "Reason", "Status"), show='headings')
-    
-    # Configure the columns for the Treeview
-    for col in tree["columns"]:
-        tree.heading(col, text=col)  # Set the heading for each column
-        tree.column(col, width=120)  # Set the width for each column
-    tree.pack(expand=True, fill="both")  # Pack the Treeview widget into the window
+    columns = ("Owed By", "Owed To", "Reason", "Status")
+    debts = [Debt.from_dict(d) for d in load_data(DATA_FILE)]
 
-    # Load the list of debts from the data file and convert to Debt objects
-    debts = [Debt.from_dict(d) for d in load_data(DATA_FILE)]  # Assuming Debt class correctly handles missing fields
-    
-    # Insert each debt into the Treeview
-    for debt in debts:
-        tree.insert("", "end", values=(
-            debt.owed_by,  # Party who owes the debt
-            debt.owed_to,  # Party to whom the debt is owed
-            debt.reason,   # Reason for the debt
-            debt.status    # Current status of the debt (e.g., unpaid, paid)
-        ))
+    # Filter frame
+    filter_frame = tk.Frame(window)
+    filter_frame.pack(fill="x", padx=5, pady=5)
 
-    # Start the Tkinter event loop
+    filter_vars = {col: tk.StringVar() for col in columns}
+
+    # Create filter inputs
+    for col in columns:
+        sub_frame = tk.Frame(filter_frame)
+        sub_frame.pack(side="left", expand=True, fill="x", padx=2)
+
+        label = tk.Label(sub_frame, text=col)
+        label.pack(anchor="w")
+
+        entry = tk.Entry(sub_frame, textvariable=filter_vars[col])
+        entry.pack(fill="x")
+        entry.bind("<KeyRelease>", lambda e: update_tree())
+
+    # Treeview setup
+    tree = ttk.Treeview(window, columns=columns, show='headings')
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, width=140)
+    tree.pack(expand=True, fill="both", padx=5, pady=5)
+
+    def update_tree():
+        tree.delete(*tree.get_children())
+        for debt in debts:
+            values = (
+                debt.owed_by,
+                debt.owed_to,
+                debt.reason,
+                debt.status
+            )
+            if all(filter_vars[col].get().lower() in str(values[i]).lower() for i, col in enumerate(columns)):
+                tree.insert("", "end", values=values)
+
+    update_tree()  # Show all debts by default
+
     window.mainloop()

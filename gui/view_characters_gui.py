@@ -7,31 +7,47 @@ DATA_FILE = "characters.json"
 
 def run_view_characters_gui():
     """
-    Runs the GUI for viewing characters. Displays a table of all characters and their details.
+    GUI for viewing characters with column-specific filters.
     """
-    # Create a new window for viewing characters
     window = tk.Toplevel()
     window.title("View Characters")
 
-    # Set up the Treeview widget to display character data
-    tree = ttk.Treeview(window, columns=("Name", "Description", "Connections"), show='headings')
-    
-    # Configure the columns for the Treeview
-    for col in tree["columns"]:
-        tree.heading(col, text=col)  # Set the heading for each column
-        tree.column(col, width=120)  # Set the width for each column
-    tree.pack(expand=True, fill="both")  # Pack the Treeview widget into the window
+    columns = ("Name", "Description", "Connections")
+    characters = [Character.from_dict(d) for d in load_data(DATA_FILE)]
 
-    # Load the list of characters from the data file
-    characters = [Character.from_dict(d) for d in load_data(DATA_FILE)]  # Convert loaded data into Character objects
-    
-    # Insert each character into the Treeview
-    for character in characters:
-        tree.insert("", "end", values=(
-            character.name,  # Name of the character
-            character.description,  # Description of the character
-            ", ".join(character.connections)  # List of connections joined by commas
-        ))
+    # Frame for filters
+    filter_frame = tk.Frame(window)
+    filter_frame.pack(fill="x", padx=5, pady=5)
 
-    # Start the Tkinter event loop
+    # StringVars for filters
+    filter_vars = {col: tk.StringVar() for col in columns}
+
+    # Create filter inputs with labels
+    for col in columns:
+        sub_frame = tk.Frame(filter_frame)
+        sub_frame.pack(side="left", expand=True, fill="x", padx=2)
+
+        label = tk.Label(sub_frame, text=col)
+        label.pack(anchor="w")
+
+        entry = tk.Entry(sub_frame, textvariable=filter_vars[col])
+        entry.pack(fill="x")
+        entry.bind("<KeyRelease>", lambda e: update_tree())
+
+    # Treeview setup
+    tree = ttk.Treeview(window, columns=columns, show="headings")
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, width=150)
+    tree.pack(expand=True, fill="both", padx=5, pady=5)
+
+    def update_tree():
+        tree.delete(*tree.get_children())
+        for char in characters:
+            values = (char.name, char.description, ", ".join(char.connections))
+            if all(filter_vars[col].get().lower() in str(values[i]).lower() for i, col in enumerate(columns)):
+                tree.insert("", "end", values=values)
+
+    update_tree()  # Show all characters by default
+
     window.mainloop()

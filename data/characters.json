@@ -1,1 +1,26 @@
-[]
+[
+    {
+        "id": 1,
+        "name": "guille",
+        "description": "",
+        "connections": [
+            ""
+        ]
+    },
+    {
+        "id": 2,
+        "name": "nuria",
+        "description": "",
+        "connections": [
+            ""
+        ]
+    },
+    {
+        "id": 3,
+        "name": "estela",
+        "description": "",
+        "connections": [
+            ""
+        ]
+    }
+]

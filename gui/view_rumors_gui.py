@@ -10,52 +10,58 @@ DATA_FILE = "rumors.json"
 
 def run_view_rumors_gui():
     """
-    Runs the GUI for viewing rumors. Displays a table with rumor details including content, source, status, 
-    related characters, factions, and locations.
+    Runs the GUI for viewing rumors with filterable columns.
     """
-    # Create a new window for viewing rumors
     window = tk.Toplevel()
     window.title("View Rumors")
 
-    # Load reference data for characters, factions, and locations
-    # Create dictionaries mapping IDs to names for easy lookup
+    # Load related data
     characters = {char.id: char.name for char in [Character.from_dict(c) for c in load_data("characters.json")]}
     factions = {fac.id: fac.name for fac in [Faction.from_dict(f) for f in load_data("factions.json")]}
     locations = {loc.id: loc.name for loc in [Location.from_dict(l) for l in load_data("locations.json")]}
+    rumors = [Rumor.from_dict(d) for d in load_data(DATA_FILE)]
 
-    # Set up the Treeview widget with columns for rumor details
-    columns = ("Content", "Source", "Date Heard", "Status", "Tags", "Characters", "Factions", "Related Locations")
+    columns = ("Content", "Source", "Date Heard", "Status", "Tags", "Related Characters", "Related Factions", "Related Locations")
+
+    # Filter bar
+    filter_frame = tk.Frame(window)
+    filter_frame.pack(fill="x", padx=5, pady=5)
+
+    filter_vars = {col: tk.StringVar() for col in columns}
+    for col in columns:
+        col_frame = tk.Frame(filter_frame)
+        col_frame.pack(side="left", expand=True, fill="x", padx=2)
+
+        tk.Label(col_frame, text=col).pack(anchor="w")
+        entry = tk.Entry(col_frame, textvariable=filter_vars[col])
+        entry.pack(fill="x")
+        entry.bind("<KeyRelease>", lambda e: update_tree())
+
+    # Treeview
     tree = ttk.Treeview(window, columns=columns, show='headings')
-    
-    # Configure the columns and their headers
     for col in columns:
         tree.heading(col, text=col)
-        tree.column(col, width=140)  # Set the width for each column
-    
-    # Pack the Treeview widget into the window
-    tree.pack(expand=True, fill="both")
+        tree.column(col, width=140)
+    tree.pack(expand=True, fill="both", padx=5, pady=5)
 
-    # Load the list of rumors from the data file and convert them to Rumor objects
-    rumors = [Rumor.from_dict(d) for d in load_data(DATA_FILE)]
-    
-    # Insert each rumor into the Treeview
-    for rumor in rumors:
-        # Get the names for the related characters, factions, and locations
-        char_names = [characters.get(cid, f"{cid}") for cid in rumor.related_characters]
-        faction_names = [factions.get(fid, f"{fid}") for fid in rumor.related_factions]
-        location_names = [locations.get(lid, f"{lid}") for lid in rumor.related_locations]
+    def format_rumor(rumor):
+        return (
+            rumor.content,
+            rumor.source,
+            rumor.date_heard,
+            rumor.status,
+            ", ".join(rumor.tags),
+            ", ".join(characters.get(cid, str(cid)) for cid in rumor.related_characters),
+            ", ".join(factions.get(fid, str(fid)) for fid in rumor.related_factions),
+            ", ".join(locations.get(lid, str(lid)) for lid in rumor.related_locations)
+        )
 
-        # Insert the rumor data into the treeview
-        tree.insert("", "end", values=(
-            rumor.content,  # Rumor content
-            rumor.source,  # Source of the rumor
-            rumor.date_heard,  # Date when the rumor was heard
-            rumor.status,  # Status of the rumor (e.g., unconfirmed, confirmed)
-            ", ".join(rumor.tags),  # Tags associated with the rumor
-            ", ".join(char_names),  # Related characters' names
-            ", ".join(faction_names),  # Related factions' names
-            ", ".join(location_names)  # Related locations' names
-        ))
+    def update_tree():
+        tree.delete(*tree.get_children())
+        for rumor in rumors:
+            values = format_rumor(rumor)
+            if all(filter_vars[col].get().lower() in str(values[i]).lower() for i, col in enumerate(columns)):
+                tree.insert("", "end", values=values)
 
-    # Start the Tkinter event loop
+    update_tree()
     window.mainloop()
