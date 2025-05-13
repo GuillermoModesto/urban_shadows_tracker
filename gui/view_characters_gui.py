@@ -12,7 +12,7 @@ def run_view_characters_gui():
     window = tk.Toplevel()
     window.title("View Characters")
 
-    columns = ("Name", "Description", "Connections")
+    columns = ("Name", "Description", "Faction", "Group", "Connections")
     characters = [Character.from_dict(d) for d in load_data(DATA_FILE)]
 
     # Frame for filters
@@ -44,7 +44,7 @@ def run_view_characters_gui():
     def update_tree():
         tree.delete(*tree.get_children())
         for char in characters:
-            values = (char.name, char.description, ", ".join(char.connections))
+            values = (char.name, char.description, char.from_faction, char.from_group, ", ".join(char.connections))
             if all(filter_vars[col].get().lower() in str(values[i]).lower() for i, col in enumerate(columns)):
                 tree.insert("", "end", values=values)
 

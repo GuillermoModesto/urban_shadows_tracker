@@ -46,11 +46,11 @@ def run_debt_gui():
     reason_entry = tk.Text(window, height=5, width=40)
     reason_entry.pack()
 
-    # Status dropdown (options: unpaid, paid, partially paid)
+    # Status dropdown (options: unpaid, paid)
     ttk.Label(window, text="Status").pack()
     status_var = tk.StringVar()
     status_dropdown = ttk.Combobox(window, textvariable=status_var)
-    status_dropdown['values'] = ("unpaid", "paid", "partially paid")
+    status_dropdown['values'] = ("unpaid", "paid")
     status_dropdown.current(0)  # Default to "unpaid"
     status_dropdown.pack()
 
