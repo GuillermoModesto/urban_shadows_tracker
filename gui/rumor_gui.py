@@ -6,6 +6,7 @@ from models.faction import Faction  # Import the Faction class
 from models.character import Character  # Import the Character class
 from models.location import Location  # Import the Location class
 from utils.data_manager import load_data, save_data
+from utils.style import apply_global_styles
 
 # File paths for the data files
 DATA_FILE = "rumors.json"
@@ -21,11 +22,8 @@ def run_rumor_gui():
     window = tk.Toplevel()
     window.title("Add Rumor")
 
-    style = ttk.Style()
-    style.configure("TLabel", font=("Helvetica", 12), padding=10)
-    style.configure("TEntry", font=("Helvetica", 12))
-    style.configure("TButton", font=("Helvetica", 12))
-    style.configure("TCombobox", font=("Helvetica", 12))
+    # Apply global styles to the GUI
+    apply_global_styles()
     
     def submit():
         """

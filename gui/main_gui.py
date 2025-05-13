@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import font
 
 # Importing the relevant functions for different categories
 from gui.rumor_gui import run_rumor_gui
@@ -15,6 +14,7 @@ from gui.debt_gui import run_debt_gui
 from gui.view_debts_gui import run_view_debts_gui
 from utils.data_manager import ensure_user_data_exists
 from utils.create_default_factions import generate_default_factions
+from utils.style import apply_global_styles
 
 def create_tile(parent, title, add_command, view_command, row, col):
     """
@@ -40,6 +40,9 @@ def create_tile(parent, title, add_command, view_command, row, col):
     # Button to view all entries for the category
     button_view = ttk.Button(frame, text="View", command=view_command)
     button_view.pack(fill="x", pady=5)
+
+    # Apply global styles to the buttons and labels
+    apply_global_styles()
 
 def run_main_gui():
     """ 

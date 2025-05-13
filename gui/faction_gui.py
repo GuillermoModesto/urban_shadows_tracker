@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from models.faction import Faction
 from utils.data_manager import load_data, save_data
+from utils.style import apply_global_styles
 
 DATA_FILE = "factions.json"
 
@@ -9,11 +10,8 @@ def run_faction_gui():
     window = tk.Toplevel()
     window.title("Add Faction")
 
-    style = ttk.Style()
-    style.configure("TLabel", font=("Helvetica", 12), padding=10)
-    style.configure("TEntry", font=("Helvetica", 12))
-    style.configure("TButton", font=("Helvetica", 12))
-    style.configure("TCombobox", font=("Helvetica", 12))
+    # Apply global styles to the GUI
+    apply_global_styles()
 
     def save_faction():
         # Collect data from input fields

@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from models.location import Location
 from utils.data_manager import load_data, save_data
+from utils.style import apply_global_styles
 
 DATA_FILE = "locations.json"
 
@@ -9,11 +10,8 @@ def run_location_gui():
     window = tk.Toplevel()
     window.title("Add Location")
 
-    style = ttk.Style()
-    style.configure("TLabel", font=("Helvetica", 12), padding=10)
-    style.configure("TEntry", font=("Helvetica", 12))
-    style.configure("TButton", font=("Helvetica", 12))
-    style.configure("TCombobox", font=("Helvetica", 12))
+    # Apply global styles to the GUI
+    apply_global_styles()
 
     def save_location():
         # Collect data from the input fields

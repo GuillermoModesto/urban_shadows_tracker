@@ -108,5 +108,15 @@
         "connections": [
             ""
         ]
+    },
+    {
+        "id": 12,
+        "name": "",
+        "description": "",
+        "from_faction": "",
+        "from_group": "",
+        "connections": [
+            ""
+        ]
     }
 ]

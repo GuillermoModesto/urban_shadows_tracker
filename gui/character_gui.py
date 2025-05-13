@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from models.character import Character
 from utils.data_manager import load_data, save_data
+from utils.style import apply_global_styles
 from models.faction import Faction 
 
 DATA_FILE = "characters.json"
@@ -11,13 +12,10 @@ def run_character_gui():
     window = tk.Toplevel()
     window.title("Add Character")
 
-    style = ttk.Style()
-    style.configure("TLabel", font=("Helvetica", 12), padding=10)
-    style.configure("TEntry", font=("Helvetica", 12))
-    style.configure("TButton", font=("Helvetica", 12))
-    style.configure("TCombobox", font=("Helvetica", 12))
+    # Apply global styles to the GUI
+    apply_global_styles()
 
-     # Load existing factions from the data file
+    # Load existing factions from the data file
     factions = [Faction.from_dict(f) for f in load_data(FACTIONS_FILE)]
     faction_names = [faction.name for faction in factions]  # List of faction names
 

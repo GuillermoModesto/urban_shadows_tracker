@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from models.character import Character
 from utils.data_manager import load_data
+from utils.style import apply_treeview_styles
 
 DATA_FILE = "characters.json"
 
@@ -12,11 +13,7 @@ def run_view_characters_gui():
     window = tk.Toplevel()
     window.title("View Characters")
 
-    style = ttk.Style()
-    style.configure("TLabel", font=("Helvetica", 12), padding=5)
-    style.configure("TEntry", font=("Helvetica", 12))
-    style.configure("Treeview.Heading", font=("Helvetica", 12, "bold"))
-    style.configure("Treeview", font=("Helvetica", 11), rowheight=30)
+    apply_treeview_styles()
 
     columns = ("Name", "Description", "Faction", "Group", "Connections")
     characters = [Character.from_dict(d) for d in load_data(DATA_FILE)]
