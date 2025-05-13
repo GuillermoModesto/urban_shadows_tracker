@@ -1,27 +1,33 @@
 import tkinter as tk
 from tkinter import ttk
-from models.debt import Debt  # Assuming the Debt class is defined in models/debt.py
+from models.debt import Debt
+from models.character import Character
 from utils.data_manager import load_data, save_data
 from utils.style import apply_global_styles
 
 DATA_FILE = "debts.json"
 
 def run_debt_gui():
-    # Create the window for adding a new debt
+    """
+    Creates and displays a GUI for adding a new debt, 
+    with fields for the debtor, creditor, reason, and debt status.
+    """
     window = tk.Toplevel()
     window.title("Add Debt")
     
-    # Apply global styles to the GUI
     apply_global_styles()
 
     def submit():
-        # Create a Debt object using the input values
+        """
+        Collects the data from the input fields, creates a new Debt object,
+        and saves the debt to the data file.
+        """
         debt = Debt(
-            id=len(debts) + 1,  # Generate a new ID based on the existing number of debts
-            owed_by=owed_by_entry.get(),  # Get the name of the person who owes
-            owed_to=owed_to_entry.get(),  # Get the name of the person to whom money is owed
-            reason=reason_entry.get("1.0", "end-1c"),  # Get the multi-line reason from the Text widget
-            status=status_var.get()  # Get the selected status from the dropdown
+            id=len(debts) + 1,
+            owed_by=owed_by_var.get(),
+            owed_to=owed_to_var.get(),
+            reason=reason_entry.get("1.0", "end-1c"),
+            status=status_var.get()
         )
 
         # Add the new debt to the list and save it to the file
@@ -31,22 +37,31 @@ def run_debt_gui():
         # Close the window after saving the debt
         window.destroy()
 
-    # Load existing debts from the file (or initialize as empty if the file doesn't exist)
+    # Load existing debts from the data file
     debts_data = load_data(DATA_FILE)
     debts = [Debt.from_dict(d) for d in debts_data]
 
-    # Set window size (width x height)
+    # Load existing characters for the dropdowns
+    characters = [Character.from_dict(c) for c in load_data("characters.json")]
+    character_names = [char.name for char in characters]
+
     window.geometry("220x350")
 
-    # Owed By field (single-line entry for the debtor's name)
+    # Owed By field (dropdown for the debtor's name)
     ttk.Label(window, text="Owed By").pack()
-    owed_by_entry = ttk.Entry(window)
-    owed_by_entry.pack()
+    owed_by_var = tk.StringVar()
+    owed_by_dropdown = ttk.Combobox(window, textvariable=owed_by_var)
+    owed_by_dropdown['values'] = character_names
+    owed_by_dropdown.set(character_names[0] if character_names else "")
+    owed_by_dropdown.pack()
 
-    # Owed To field (single-line entry for the creditor's name)
+    # Owed To field (dropdown for the creditor's name)
     ttk.Label(window, text="Owed To").pack()
-    owed_to_entry = ttk.Entry(window)
-    owed_to_entry.pack()
+    owed_to_var = tk.StringVar()
+    owed_to_dropdown = ttk.Combobox(window, textvariable=owed_to_var)
+    owed_to_dropdown['values'] = character_names
+    owed_to_dropdown.set(character_names[0] if character_names else "")
+    owed_to_dropdown.pack()
 
     # Reason field (multi-line text box for explaining the debt)
     ttk.Label(window, text="Reason").pack()
@@ -58,10 +73,10 @@ def run_debt_gui():
     status_var = tk.StringVar()
     status_dropdown = ttk.Combobox(window, textvariable=status_var)
     status_dropdown['values'] = ("unpaid", "paid")
-    status_dropdown.current(0)  # Default to "unpaid"
+    status_dropdown.current(0)
     status_dropdown.pack()
 
-    # Submit Button to trigger debt submission
+    # Submit button to trigger debt submission
     ttk.Button(window, text="Submit", command=submit).pack(pady=10)
 
     # Run the GUI event loop to display the window

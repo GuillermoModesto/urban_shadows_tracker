@@ -7,64 +7,62 @@ from utils.style import apply_global_styles
 DATA_FILE = "locations.json"
 
 def run_location_gui():
+    """
+    Launches a GUI window for adding a new location. 
+    Users can input a name, description, area, and a list of details.
+    """
     window = tk.Toplevel()
     window.title("Add Location")
 
-    # Apply global styles to the GUI
     apply_global_styles()
 
     def save_location():
-        # Collect data from the input fields
-        name = entry_name.get()  # Get the location name
-        description = entry_description.get("1.0", "end-1c")  # Get the description (multi-line)
-        area = entry_area.get()  # Get the area
-        details = entry_details.get()  # Get the details (comma separated)
+        """
+        Collects input values, creates a new Location object,
+        appends it to the data list, and saves it to file.
+        """
+        name = entry_name.get()
+        description = entry_description.get("1.0", "end-1c")
+        area = entry_area.get()
+        details = entry_details.get()
 
-        # Generate the new location ID based on existing data
         locations_data = load_data(DATA_FILE)
         locations = [Location.from_dict(loc_data) for loc_data in locations_data]
-        new_id = len(locations) + 1  # Automatically assign the next available ID
+        new_id = len(locations) + 1
 
-        # Create the new location object and append it to the list
         new_location = Location(
             id=new_id,
             name=name,
             description=description,
             area=area,
-            details=details.split(",")  # Split details by commas
+            details=[d.strip() for d in details.split(",")]
         )
         locations.append(new_location)
 
-        # Save the updated list of locations to the file
         save_data(DATA_FILE, [l.to_dict() for l in locations])
-
-        # Close the window after saving
         window.destroy()
 
-    # UI Elements
-    label_name = ttk.Label(window, text="Location Name:")
-    label_name.pack(pady=5)
+    # Location Name
+    ttk.Label(window, text="Location Name:").pack(pady=5)
     entry_name = ttk.Entry(window)
     entry_name.pack(pady=5)
 
-    label_description = ttk.Label(window, text="Location Description:")
-    label_description.pack(pady=5)
+    # Description (multiline)
+    ttk.Label(window, text="Location Description:").pack(pady=5)
     entry_description = tk.Text(window, height=4, width=20)
     entry_description.pack(pady=5)
 
-    label_area = ttk.Label(window, text="Area:")
-    label_area.pack(pady=5)
+    # Area
+    ttk.Label(window, text="Area:").pack(pady=5)
     entry_area = ttk.Entry(window)
     entry_area.pack(pady=5)
 
-    label_details = ttk.Label(window, text="Details (comma separated):")
-    label_details.pack(pady=5)
+    # Details (comma-separated)
+    ttk.Label(window, text="Details (comma separated):").pack(pady=5)
     entry_details = ttk.Entry(window)
     entry_details.pack(pady=5)
 
-    # Button to save the new location
-    button_save = ttk.Button(window, text="Save Location", command=save_location)
-    button_save.pack(pady=10)
+    # Save Button
+    ttk.Button(window, text="Save Location", command=save_location).pack(pady=10)
 
-    # Run the GUI event loop
     window.mainloop()

@@ -5,17 +5,22 @@ from utils.data_manager import load_data, save_data
 
 DATA_FILE = "factions.json"
 
+
 def generate_default_factions():
-    # Check if the file exists and is not empty
+    """
+    Initializes the factions.json file with default factions if:
+    - The file does not exist
+    - The file is empty
+    - The file is unreadable or corrupted (e.g. JSONDecodeError)
+    """
     if os.path.exists(DATA_FILE):
         try:
             existing_data = load_data(DATA_FILE)
-            if existing_data:  # File exists and has data (even if it's an empty list, we proceed)
-                return  # Data already exists, do nothing
-        except json.JSONDecodeError:  # Handle case where the file exists but is empty or corrupted
-            pass  # We will proceed to populate it with default factions
+            if existing_data:
+                return  # Valid data already exists; do nothing
+        except json.JSONDecodeError:
+            pass  # File is corrupted or empty; proceed with defaults
 
-    # Default factions to initialize
     default_factions = [
         Faction(
             id=1,
@@ -47,5 +52,4 @@ def generate_default_factions():
         )
     ]
 
-    # Save the data
     save_data(DATA_FILE, [f.to_dict() for f in default_factions])

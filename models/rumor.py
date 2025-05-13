@@ -8,7 +8,7 @@ class Rumor:
         self.tags = tags
         self.related_characters = related_characters
         self.related_factions = related_factions
-        self.related_locations = related_locations  # Ensure this is present
+        self.related_locations = related_locations
 
     def to_dict(self):
         return {
