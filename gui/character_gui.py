@@ -11,6 +11,12 @@ def run_character_gui():
     window = tk.Toplevel()
     window.title("Add Character")
 
+    style = ttk.Style()
+    style.configure("TLabel", font=("Helvetica", 12), padding=10)
+    style.configure("TEntry", font=("Helvetica", 12))
+    style.configure("TButton", font=("Helvetica", 12))
+    style.configure("TCombobox", font=("Helvetica", 12))
+
      # Load existing factions from the data file
     factions = [Faction.from_dict(f) for f in load_data(FACTIONS_FILE)]
     faction_names = [faction.name for faction in factions]  # List of faction names
@@ -45,29 +51,29 @@ def run_character_gui():
         window.destroy()
 
     # UI Elements for the character form
-    label_name = tk.Label(window, text="Character Name:")
+    label_name = ttk.Label(window, text="Character Name:")
     label_name.pack(pady=5)
-    entry_name = tk.Entry(window)
+    entry_name = ttk.Entry(window)
     entry_name.pack(pady=5)
 
-    label_description = tk.Label(window, text="Character Description:")
+    label_description = ttk.Label(window, text="Character Description:")
     label_description.pack(pady=5)
-    entry_description = tk.Text(window, height=5, width=40)
+    entry_description = tk.Text(window, height=4, width=20)
     entry_description.pack(pady=5)
 
-    label_from_faction = tk.Label(window, text="From Faction:")
+    label_from_faction = ttk.Label(window, text="From Faction:")
     label_from_faction.pack(pady=5)
     combo_faction = ttk.Combobox(window, values=faction_names, state="normal")  # Populate combobox with faction names
     combo_faction.pack(pady=5)
 
-    label_from_group = tk.Label(window, text="From Group:")
+    label_from_group = ttk.Label(window, text="From Group:")
     label_from_group.pack(pady=5)
-    entry_from_group = tk.Entry(window)
+    entry_from_group = ttk.Entry(window)
     entry_from_group.pack(pady=5)
 
-    label_connections = tk.Label(window, text="Connections (comma separated):")
+    label_connections = ttk.Label(window, text="Connections (comma separated):")
     label_connections.pack(pady=5)
-    entry_connections = tk.Entry(window)
+    entry_connections = ttk.Entry(window)
     entry_connections.pack(pady=5)
 
     # Save Button to trigger saving the character

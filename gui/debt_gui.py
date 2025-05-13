@@ -6,6 +6,16 @@ from utils.data_manager import load_data, save_data
 DATA_FILE = "debts.json"
 
 def run_debt_gui():
+    # Create the window for adding a new debt
+    window = tk.Toplevel()
+    window.title("Add Debt")
+    
+    style = ttk.Style()
+    style.configure("TLabel", font=("Helvetica", 12), padding=10)
+    style.configure("TEntry", font=("Helvetica", 12))
+    style.configure("TButton", font=("Helvetica", 12))
+    style.configure("TCombobox", font=("Helvetica", 12))
+
     def submit():
         # Create a Debt object using the input values
         debt = Debt(
@@ -27,9 +37,8 @@ def run_debt_gui():
     debts_data = load_data(DATA_FILE)
     debts = [Debt.from_dict(d) for d in debts_data]
 
-    # Create the window for adding a new debt
-    window = tk.Toplevel()
-    window.title("Add Debt")
+    # Set window size (width x height)
+    window.geometry("220x350")
 
     # Owed By field (single-line entry for the debtor's name)
     ttk.Label(window, text="Owed By").pack()
@@ -43,7 +52,7 @@ def run_debt_gui():
 
     # Reason field (multi-line text box for explaining the debt)
     ttk.Label(window, text="Reason").pack()
-    reason_entry = tk.Text(window, height=5, width=40)
+    reason_entry = tk.Text(window, height=4, width=20)
     reason_entry.pack()
 
     # Status dropdown (options: unpaid, paid)

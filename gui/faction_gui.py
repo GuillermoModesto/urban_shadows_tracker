@@ -9,6 +9,12 @@ def run_faction_gui():
     window = tk.Toplevel()
     window.title("Add Faction")
 
+    style = ttk.Style()
+    style.configure("TLabel", font=("Helvetica", 12), padding=10)
+    style.configure("TEntry", font=("Helvetica", 12))
+    style.configure("TButton", font=("Helvetica", 12))
+    style.configure("TCombobox", font=("Helvetica", 12))
+
     def save_faction():
         # Collect data from input fields
         name = entry_name.get()
@@ -35,19 +41,19 @@ def run_faction_gui():
         window.destroy()
 
     # UI Layout
-    tk.Label(window, text="Faction Name:").pack(pady=5)
+    ttk.Label(window, text="Faction Name:").pack(pady=5)
     entry_name = tk.Entry(window)
     entry_name.pack(pady=5)
 
-    tk.Label(window, text="Influence:").pack(pady=5)
+    ttk.Label(window, text="Influence:").pack(pady=5)
     entry_influence = tk.Entry(window)
     entry_influence.pack(pady=5)
 
-    tk.Label(window, text="Territory:").pack(pady=5)
+    ttk.Label(window, text="Territory:").pack(pady=5)
     entry_territory = tk.Entry(window)
     entry_territory.pack(pady=5)
 
-    tk.Label(window, text="Members (comma separated):").pack(pady=5)
+    ttk.Label(window, text="Members (comma separated):").pack(pady=5)
     entry_members = tk.Entry(window)
     entry_members.pack(pady=5)
 

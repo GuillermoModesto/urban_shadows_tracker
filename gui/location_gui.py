@@ -9,6 +9,12 @@ def run_location_gui():
     window = tk.Toplevel()
     window.title("Add Location")
 
+    style = ttk.Style()
+    style.configure("TLabel", font=("Helvetica", 12), padding=10)
+    style.configure("TEntry", font=("Helvetica", 12))
+    style.configure("TButton", font=("Helvetica", 12))
+    style.configure("TCombobox", font=("Helvetica", 12))
+
     def save_location():
         # Collect data from the input fields
         name = entry_name.get()  # Get the location name
@@ -38,24 +44,24 @@ def run_location_gui():
         window.destroy()
 
     # UI Elements
-    label_name = tk.Label(window, text="Location Name:")
+    label_name = ttk.Label(window, text="Location Name:")
     label_name.pack(pady=5)
-    entry_name = tk.Entry(window)
+    entry_name = ttk.Entry(window)
     entry_name.pack(pady=5)
 
-    label_description = tk.Label(window, text="Location Description:")
+    label_description = ttk.Label(window, text="Location Description:")
     label_description.pack(pady=5)
-    entry_description = tk.Text(window, height=5, width=40)
+    entry_description = tk.Text(window, height=4, width=20)
     entry_description.pack(pady=5)
 
-    label_area = tk.Label(window, text="Area:")
+    label_area = ttk.Label(window, text="Area:")
     label_area.pack(pady=5)
-    entry_area = tk.Entry(window)
+    entry_area = ttk.Entry(window)
     entry_area.pack(pady=5)
 
-    label_details = tk.Label(window, text="Details (comma separated):")
+    label_details = ttk.Label(window, text="Details (comma separated):")
     label_details.pack(pady=5)
-    entry_details = tk.Entry(window)
+    entry_details = ttk.Entry(window)
     entry_details.pack(pady=5)
 
     # Button to save the new location

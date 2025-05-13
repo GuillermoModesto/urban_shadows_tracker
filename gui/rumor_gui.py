@@ -17,6 +17,16 @@ def run_rumor_gui():
     """
     Runs the GUI for adding a new rumor. Collects the rumor's data, related factions, characters, and locations.
     """
+    # Create the main window for adding a rumor
+    window = tk.Toplevel()
+    window.title("Add Rumor")
+
+    style = ttk.Style()
+    style.configure("TLabel", font=("Helvetica", 12), padding=10)
+    style.configure("TEntry", font=("Helvetica", 12))
+    style.configure("TButton", font=("Helvetica", 12))
+    style.configure("TCombobox", font=("Helvetica", 12))
+    
     def submit():
         """
         Submits the new rumor data and saves it to the corresponding file.
@@ -31,7 +41,7 @@ def run_rumor_gui():
         # Create a new Rumor object with the provided data
         rumor = Rumor(
             id=new_id,
-            content=content_entry.get(),
+            content=content_entry.get("1.0", "end-1c"),  # Get multi-line text from the content field
             source=source_entry.get(),
             date_heard=date_entry.get(),
             status=status_var.get(),
@@ -61,13 +71,12 @@ def run_rumor_gui():
     locations = [Location.from_dict(location_data) for location_data in locations_data]
     location_names = [location.name for location in locations]
 
-    # Create the main window for adding a rumor
-    window = tk.Toplevel()
-    window.title("Add Rumor")
+    # Set window size (width x height)
+    window.geometry("300x700")
 
     # Content field
     ttk.Label(window, text="Content").pack()
-    content_entry = ttk.Entry(window)
+    content_entry = tk.Text(window, height=4, width=20)
     content_entry.pack()
 
     # Source field

@@ -12,6 +12,12 @@ def run_view_factions_gui():
     window = tk.Toplevel()
     window.title("View Factions")
 
+    style = ttk.Style()
+    style.configure("TLabel", font=("Helvetica", 12), padding=5)
+    style.configure("TEntry", font=("Helvetica", 12))
+    style.configure("Treeview.Heading", font=("Helvetica", 12, "bold"))
+    style.configure("Treeview", font=("Helvetica", 11), rowheight=30)
+
     columns = ("Name", "Influence", "Territory", "Members")
     factions = [Faction.from_dict(d) for d in load_data(DATA_FILE)]
 
