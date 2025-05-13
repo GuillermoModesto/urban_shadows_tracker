@@ -5,7 +5,7 @@ from models.character import Character
 from models.faction import Faction
 from models.location import Location
 from utils.data_manager import load_data
-from utils.style import apply_treeview_styles
+from utils.style import apply_global_styles
 
 DATA_FILE = "rumors.json"
 
@@ -16,7 +16,7 @@ def run_view_rumors_gui():
     window = tk.Toplevel()
     window.title("View Rumors")
 
-    apply_treeview_styles()
+    apply_global_styles()
 
     # Load related data
     characters = {char.id: char.name for char in [Character.from_dict(c) for c in load_data("characters.json")]}

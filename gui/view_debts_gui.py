@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from models.debt import Debt
 from utils.data_manager import load_data
-from utils.style import apply_treeview_styles
+from utils.style import apply_global_styles
 
 DATA_FILE = "debts.json"
 
@@ -13,7 +13,7 @@ def run_view_debts_gui():
     window = tk.Toplevel()
     window.title("View Debts")
 
-    apply_treeview_styles()
+    apply_global_styles()
 
     columns = ("Owed By", "Owed To", "Reason", "Status")
     debts = [Debt.from_dict(d) for d in load_data(DATA_FILE)]

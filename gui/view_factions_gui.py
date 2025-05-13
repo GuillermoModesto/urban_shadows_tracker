@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from models.faction import Faction
 from utils.data_manager import load_data
-from utils.style import apply_treeview_styles
+from utils.style import apply_global_styles
 
 DATA_FILE = "factions.json"
 
@@ -13,7 +13,7 @@ def run_view_factions_gui():
     window = tk.Toplevel()
     window.title("View Factions")
 
-    apply_treeview_styles()
+    apply_global_styles()
 
     columns = ("Name", "Influence", "Territory", "Members")
     factions = [Faction.from_dict(d) for d in load_data(DATA_FILE)]

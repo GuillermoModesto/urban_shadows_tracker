@@ -18,31 +18,32 @@ from utils.style import apply_global_styles
 
 def create_tile(parent, title, add_command, view_command, row, col):
     """
-    Creates a tile containing Add and View buttons for each category (Rumor, Character, etc.)
-    The tile is added to a grid within the given parent frame.
+    Creates a tile containing Add and View buttons with inner padding.
     """
-    # Create a frame for the tile with specific dimensions and background color
+    # Outer tile frame
     frame = tk.Frame(parent, relief="solid", bd=2, width=180, height=180, bg="#f0f0f0")
     frame.grid(row=row, column=col, padx=10, pady=10, sticky="nsew")
-
-    # Make the frame expand within the grid layout
     parent.grid_rowconfigure(row, weight=1, uniform="equal")
     parent.grid_columnconfigure(col, weight=1, uniform="equal")
 
-    # Title label for the tile
+    # Title label (full width)
     title_label = tk.Label(frame, text=title, font=("Arial", 14), bg="#3498db", fg="white", anchor="center")
-    title_label.pack(fill="x", pady=5)
+    title_label.pack(fill="x")
 
-    # Button to add a new entry for the category
-    button_add = ttk.Button(frame, text="Add", command=add_command)
+    # Inner frame for content padding
+    inner_frame = tk.Frame(frame, bg="#f0f0f0")
+    inner_frame.pack(expand=True, fill="both", padx=10, pady=10)
+
+    # Buttons inside inner frame
+    button_add = ttk.Button(inner_frame, text="Add", command=add_command)
     button_add.pack(fill="x", pady=5)
 
-    # Button to view all entries for the category
-    button_view = ttk.Button(frame, text="View", command=view_command)
+    button_view = ttk.Button(inner_frame, text="View", command=view_command)
     button_view.pack(fill="x", pady=5)
 
-    # Apply global styles to the buttons and labels
+    # Apply styles if needed
     apply_global_styles()
+
 
 def run_main_gui():
     """ 

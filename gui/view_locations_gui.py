@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from models.location import Location
 from utils.data_manager import load_data
-from utils.style import apply_treeview_styles
+from utils.style import apply_global_styles
 
 DATA_FILE = "locations.json"
 
@@ -13,7 +13,7 @@ def run_view_locations_gui():
     window = tk.Toplevel()
     window.title("View Locations")
     
-    apply_treeview_styles()
+    apply_global_styles()
 
     columns = ("Name", "Description", "Area", "Details")
     locations = [Location.from_dict(d) for d in load_data(DATA_FILE)]

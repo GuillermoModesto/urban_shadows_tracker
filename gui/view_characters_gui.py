@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from models.character import Character
 from utils.data_manager import load_data
-from utils.style import apply_treeview_styles
+from utils.style import apply_global_styles
 
 DATA_FILE = "characters.json"
 
@@ -13,7 +13,7 @@ def run_view_characters_gui():
     window = tk.Toplevel()
     window.title("View Characters")
 
-    apply_treeview_styles()
+    apply_global_styles()
 
     columns = ("Name", "Description", "Faction", "Group", "Connections")
     characters = [Character.from_dict(d) for d in load_data(DATA_FILE)]
